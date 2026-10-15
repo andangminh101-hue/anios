@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MINH AN MOD</title>
+<style>
+:root{color-scheme:dark;--bg:#090d16;--panel:#111827;--line:#273449;--txt:#eef4ff;--muted:#9eacc2;--blue:#65a7ff;--green:#53dfb0;--red:#ff7d8c}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(rgba(4,6,18,.84),rgba(4,6,18,.91)),url("assets/background.jpg") center top/cover fixed no-repeat,radial-gradient(ellipse at top,#172641 0,#090d16 55%);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--txt);padding:20px 14px 42px}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:url("assets/background.jpg") center top/cover no-repeat;opacity:.18;pointer-events:none}
+
+main{width:100%;max-width:none;margin:0 auto;padding:0 8px;box-sizing:border-box}main>*{max-width:100%;box-sizing:border-box}.card{width:100%;box-sizing:border-box}@media(max-width:600px){main{padding-left:7px;padding-right:7px}.card{padding:13px 11px;margin:10px 0;border-radius:15px}.hero h1{font-size:clamp(25px,7.5vw,36px)}textarea,input[type=text],select{font-size:13px}}.brand{font-size:12px;letter-spacing:.2em;color:var(--blue);font-weight:800}.hero{margin:8px 0 18px}.hero h1{font-size:clamp(27px,7vw,40px);line-height:1.08;margin:8px 0}.hero p{color:var(--muted);margin:8px 0}
+.card{background:linear-gradient(145deg,rgba(18,28,45,.94),rgba(14,21,34,.94));border:1px solid var(--line);border-radius:18px;padding:17px;margin:13px 0;box-shadow:0 12px 35px #0002}
+h2{font-size:16px;margin:0 0 12px}.step{color:var(--blue);font-size:11px;letter-spacing:.14em;font-weight:800;margin-bottom:4px}
+button,.filepick{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #365071;background:#1a2a42;color:var(--txt);padding:12px 14px;border-radius:12px;font-weight:700;cursor:pointer;min-height:44px;text-align:center}
+button.primary{background:var(--blue);color:#071323;border-color:var(--blue)}button.green{background:#123c36;border-color:#286f60;color:#a7ffe5}button.danger{background:#351e2a;border-color:#713445;color:#ffc0ca}
+button:disabled{opacity:.4;cursor:not-allowed}.full{width:100%}.actions{display:flex;flex-wrap:wrap;gap:8px}.actions>*{flex:1 1 145px}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+input[type=text],textarea,select{width:100%;background:#080e18;border:1px solid #2b3b52;border-radius:10px;padding:12px;color:var(--txt);font:14px ui-monospace,SFMono-Regular,Menlo,monospace;outline:none}
+textarea{resize:vertical;min-height:76px}label{display:block;font-size:13px;color:#c5d1e4;margin:11px 0 6px}.help{font-size:12px;color:var(--muted);margin-top:7px}.status{padding:11px 12px;border-radius:10px;background:#0b1421;border:1px solid var(--line);margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere}.ok{color:var(--green)}.err{color:var(--red)}.fileinfo{font-size:13px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 8px;color:var(--muted);font-size:11px;margin:2px 4px 2px 0}.notice{font-size:12px;color:var(--muted);border-left:3px solid #456b9d;padding-left:10px;margin-top:12px}
+
+.preset-card{border-color:rgba(153,105,255,.65);background:linear-gradient(145deg,rgba(31,25,61,.96),rgba(14,21,34,.96))!important}
+.import-box{margin-top:14px;padding:13px;border:1px solid #4c477e;border-radius:12px;background:rgba(8,13,28,.65)}
+.import-box input[type="file"]{display:block;width:100%;max-width:100%;padding:10px;border:1px solid var(--line);border-radius:9px;background:#0b1421;color:var(--txt);font-size:13px}
+.import-box input[type="text"]{display:block;width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:#0b1421;color:var(--txt);font-size:14px;box-sizing:border-box}
+.saved-presets-wrap{margin-top:16px}.saved-presets-wrap h3{font-size:13px;color:#ded7ff;margin:0 0 10px}.saved-preset-item{display:flex;align-items:stretch;gap:7px}.saved-preset-item .preset-btn{flex:1;min-width:0}.saved-preset-item .delete-preset{width:44px;flex:0 0 44px;border:1px solid #6b3342;border-radius:10px;background:#321b29;color:#ffdce4;font-size:18px}
+.preset-intro{margin:0 0 12px;color:#c7c4e8;font-size:13px}
+.preset-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.preset-btn{width:100%;display:flex;align-items:center;justify-content:flex-start;text-align:left;gap:12px;min-height:66px;padding:13px;border:1px solid #6850a9;background:linear-gradient(110deg,rgba(75,48,132,.68),rgba(21,34,58,.95));border-radius:13px;color:#fff}
+.preset-btn:active{transform:scale(.99);filter:brightness(1.2)}
+.preset-icon{font-size:24px;flex:0 0 32px;text-align:center}
+.preset-btn strong{display:block;font-size:13px;letter-spacing:.02em}
+.preset-btn small{display:block;margin-top:3px;font-size:11px;color:#c7c8e6;font-weight:400}
+.preset-status{margin-top:10px;padding:9px 11px;border-radius:9px;background:#0b1220;color:#c7d4ed;font-size:12px;border:1px solid #293751}
+@media(min-width:620px){.preset-grid{grid-template-columns:1fr 1fr}.preset-btn:first-child{grid-column:1/-1}}
+</style>
+
+<style id="minhan-gate-style">
+#minhan-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:22px;margin:0;width:100%;min-height:100dvh;overflow-y:auto;background:radial-gradient(ellipse at 50% 20%,rgba(81,24,200,.28),transparent 55%),linear-gradient(145deg,rgba(3,4,18,.98),rgba(8,10,34,.98));font-family:system-ui,-apple-system,sans-serif;color:#f4f2ff}
+#minhan-gate *{box-sizing:border-box}#minhan-gate .gate-card{max-height:calc(100dvh - 32px);overflow-y:auto}#minhan-gate .gate-card{width:min(100%,520px);padding:28px 22px;border:1px solid #6955b8;border-radius:26px;background:rgba(15,20,43,.97);box-shadow:0 0 45px #5226c455, inset 0 0 25px #222b5233;text-align:center}
+#minhan-gate h1{font-size:clamp(24px,6vw,34px);margin:0 0 8px;font-weight:900;letter-spacing:.5px}#minhan-gate .sub{color:#b9b7d7;margin:0 0 24px;font-size:15px}
+#minhan-gate input{width:100%;padding:17px 15px;border-radius:15px;border:1px solid #59658e;background:#090e20;color:#fff;font-size:17px;outline:none;margin-bottom:12px}#minhan-gate button{width:100%;padding:15px;border-radius:14px;font-weight:800;font-size:16px;cursor:pointer}
+#minhan-gate .paste{background:#1b2543;border:1px solid #6575a4;color:#f2f3ff;margin-bottom:12px}#minhan-gate .unlock{border:0;color:#080c21;background:linear-gradient(100deg,#52d9c1,#7c8eff)}#minhan-gate .admin{width:auto;margin-top:26px;padding:12px 16px;background:transparent;border:1px solid #58668e;color:#d6d9f7;font-size:13px}#minhan-gate .msg{min-height:22px;font-size:13px;color:#ffc6d8;margin:12px 0 0}#minhan-gate .foot{font-size:11px;color:#aaa3d2;margin-top:18px;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<style>
+#minhan-key-panel{position:fixed;left:50%;top:calc(env(safe-area-inset-top, 0px) + 8px);transform:translateX(-50%);z-index:99999;width:max-content;max-width:calc(100vw - 18px);box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;color:#f4f5ff;font:12px system-ui,sans-serif}
+#minhan-key-panel .pill{display:flex;align-items:center;justify-content:center;gap:5px;min-height:34px;box-sizing:border-box;padding:7px 10px;border-radius:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(17,22,39,.94);font-weight:700;box-shadow:0 3px 12px #0005}
+#minhan-key-panel .logout{border:1px solid #a34b70;color:#ff9bb7;max-width:38vw;flex:0 1 auto;min-width:0;text-overflow:ellipsis}
+#minhan-key-panel .timer{border:1px solid #3faaa1;color:#72efdc;max-width:60vw;min-width:0;text-overflow:ellipsis;white-space:normal;flex-direction:column;align-items:flex-start;gap:2px}
+#minhan-key-panel button{font:inherit;cursor:pointer}
+@media(max-width:390px){#minhan-key-panel{gap:4px;font-size:10px}#minhan-key-panel .pill{padding:6px 7px;min-height:31px}}
+</style>
+<script>
+window.showMinhanKeyPanel=function(k,item){
+ let panel=document.getElementById('minhan-key-panel');if(!panel){panel=document.createElement('div');panel.id='minhan-key-panel';document.body.prepend(panel)}
+ const labels={'minhancheat1dayastmr':'1 giờ','minhancheat24hcontisn':'24 giờ','minhancheat7daysifbeb':'7 ngày','minhanchet30daygdnenf':'30 ngày','minhancheat90dayhcfen':'90 ngày','minhancheatkeyvinhvien':'Vĩnh viễn'};
+ const fmt=ms=>{let sec=Math.max(0,Math.floor(ms/1000)),d=Math.floor(sec/86400);sec%=86400;let h=Math.floor(sec/3600);let rem=sec%3600;return '<span style="display:block;line-height:1.25">'+d+' ngày '+h+' giờ</span>'};
+ function render(){const now=Date.now(),remaining=item.expires?item.expires-now:0;panel.innerHTML='<button type="button" class="pill logout" id="minhan-logout">↪ ĐĂNG XUẤT</button><div class="pill timer">⌛ '+(labels[k]||'KEY')+' · '+(item.expires?fmt(remaining):'VĨNH VIỄN')+'</div>';document.getElementById('minhan-logout').onclick=()=>location.reload();if(item.expires&&remaining<=0){alert('KEY đã hết hạn.');location.reload()}}
+ render();if(window.minhanKeyTimer)clearInterval(window.minhanKeyTimer);window.minhanKeyTimer=setInterval(render,1000);
+};
+</script>
+
+<section class="hero-video" aria-label="Video nền Minh An">
+  <video poster="" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Video tự phát liên tục">
+    <source src="assets/background.mp4" type="video/mp4">
+    Trình duyệt không hỗ trợ phát video.
+  </video>
+</section>
+<style>
+.hero-video{max-width:980px;margin:0 auto 18px;border:1px solid rgba(168,116,255,.65);border-radius:20px;overflow:hidden;box-shadow:0 12px 38px rgba(83,36,255,.25);background:#050610}
+.hero-video video{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain;background:#050610}
+</style>
+<main>
+<div class="brand">TOOL ĐỘC QUYỀN MINH AN MOD</div>
+<header class="hero"><h1>Đặng Minh An</h1><p>Tool độc quyền Minh An MOD</p><span class="pill">Chạy ngay trên thiết bị</span><span class="pill">Không tải file lên mạng</span></header>
+
+<section class="card">
+<div class="step">01 / SOURCE</div><h2>Chọn file gốc từ Tệp / Filza</h2>
+<label class="filepick full" for="sourceFile">📂 Chọn file gốc</label><input id="sourceFile" type="file">
+<div id="fileInfo" class="fileinfo">Chưa chọn file</div>
+
+</section>
+
+<section class="card preset-card" id="presetSection">
+<div class="step">02 / PRESETS</div><h2>📦 NẠP MẪU HEX</h2>
+<p class="preset-intro">Chạm một mẫu là code TÌM/THAY thật được tự động đưa vào công cụ và lưu vào danh sách mẫu để dùng lại.</p>
+<div class="preset-grid">
+<button class="preset-btn" type="button" data-preset="aim"><span class="preset-icon">🎯</span><span><strong>NẠP MẪU AIMLOCK AVATAR</strong><small>Nạp code Aimlock Avatar vào ô HEX</small></span></button>
+<button class="preset-btn" type="button" data-preset="ant1"><span class="preset-icon">📡</span><span><strong>NẠP ANTENA MẪU 1</strong><small>Nạp code Antena mẫu 1 vào ô HEX</small></span></button>
+<button class="preset-btn" type="button" data-preset="ant2"><span class="preset-icon">📶</span><span><strong>NẠP ANTENA MẪU 2</strong><small>Nạp code Antena mẫu 2 vào ô HEX</small></span></button>
+</div>
+
+<div class="saved-presets-wrap"><h3>📚 MẪU ĐÃ LƯU — CHỌN ĐỂ NẠP LẠI</h3><div id="savedPresets" class="preset-grid"></div></div>
+<div id="presetStatus" class="preset-status" role="status" aria-live="polite">Chưa nạp mẫu nào.</div>
+</section>
+
+<section class="card">
+<div class="step">03 / HEX PAIR</div><h2>Cặp HEX cần tìm và thay</h2>
+<label for="findHex">HEX gốc cần tìm</label><textarea id="findHex" spellcheck="false" placeholder="Ví dụ: DE AD BE EF"></textarea>
+<label for="replaceHex">HEX mới thay vào</label><textarea id="replaceHex" spellcheck="false" placeholder="Ví dụ: 11 22 33 44"></textarea>
+<label for="mode">Cách thay</label><select id="mode"><option value="all">Thay tất cả vị trí khớp</option><option value="first">Chỉ thay vị trí khớp đầu tiên</option></select>
+<div class="help">Nhập byte dạng hex, có thể ngăn cách bằng dấu cách hoặc xuống dòng. Hai dãy phải có cùng độ dài để giữ nguyên kích thước file.</div>
+</section>
+
+<section class="card">
+<div class="step">04 / VERIFY</div><h2>Kiểm tra & thay HEX</h2>
+<div class="actions"><button id="checkBtn" class="full">🔎 KIỂM TRA SỐ LẦN KHỚP</button></div>
+<div id="checkStatus" class="status">Chưa kiểm tra.</div>
+<div style="height:10px"></div>
+<button id="replaceBtn" class="primary full" disabled>✓ XÁC NHẬN THAY HEX</button>
+<div id="replaceStatus" class="status">Chưa có thay đổi.</div>
+</section>
+
+<section class="card">
+<div class="step">05 / EXPORT</div><h2>Tải file đã sửa</h2>
+<button id="downloadBtn" class="green full" disabled>⬇ TẢI FILE ĐÃ SỬA</button>
+<div id="exportStatus" class="fileinfo">Hãy kiểm tra và xác nhận thay HEX trước.</div>
+</section>
+
+</main>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+let originalFile=null, originalBytes=null, editedBytes=null, matchCount=0, checkedKey='', replacementReady=false;
+const presets={
+ aim:{name:'Aimlock Avatar',find:'F9 B4 31 69 74 EB 4C 7B 5A BD 0A 57 66 BB 1E 21 48 BA 2A C2 CF 3B 96 FB 28 3D E8 B1 17 BD E3 99 7F 3F 04 00 80 3F 01 00 80 3F FC FF 7F 3F 10 00 00 00 62 6F 6E 65 5F 4C 65 66 74 5F 57 65 61 70 6F 6E 23 AA A6 B8 46 0A CD 70 6B F9 08 BE 00 00 00 00 00 00 00 00 8B DD 9C 30 EC CF FF B2 8B DD 1C 3D EC CF 7F 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 10 00 00 00',replace:'F9 B4 31 69 74 EB 0E 15 97 BE 66 8E 81 BB 14 FE CC B1 00 00 00 00 BF B2 2F 3F 43 32 73 36 66 03 7B 35 9A 99 C0 3F 00 00 C0 3F 00 00 C0 3F 10 00 00 00 62 6F 6E 65 5F 48 65 61 64 00 00 00 00 00 00 00 23 AA A6 B8 B2 F7 1F A4 6B F9 08 BE 00 00 00 00 00 00 00 00 8B DD 9C 30 EC CF FF B2 8B DD 1C 3D EC CF 7F 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 10 00 00 00'},
+ ant1:{name:'Antena Tay All OB 2 - Mẫu 1',find:'16 08 0E BF CD 0B 13 BD 9F C9 54 3F 86 68 85 BE E6 D3 54 BF 37 B3 7F 3D 3E 5E 0D BF 64 CD 09 3F 2C 56 03 BD DA 55 7F BF 7D 0E 84 BD 65 56 65 3D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F',replace:'16 08 0E BF CD 0B 13 BD 9F C9 54 3F 86 68 85 BE E6 D3 54 BF 37 B3 7F 3D 3E 5E 0D BF 64 CD 09 3F 2C 56 03 BD DA 55 7F BF 7D 0E 84 BD 65 56 65 3D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FA 43'},
+ ant2:{name:'Antena Tay All OB 2 - Mẫu 2',find:'B4 82 8F 3E 3A B1 1A 3E 02 AD 72 3F 6B A5 E0 BE DE 28 71 3F 12 F7 15 3E 31 90 9A BE F0 DE D3 3E CA DB 3C BE FB 44 7A 3F 7F 61 CF BD 11 F8 2D 3D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F',replace:'B4 82 8F 3E 3A B1 1A 3E 02 AD 72 3F 6B A5 E0 BE DE 28 71 3F 12 F7 15 3E 31 90 9A BE F0 DE D3 3E CA DB 3C BE FB 44 7A 3F 7F 61 CF BD 11 F8 2D 3D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FA 43'}
+};
+const STORAGE_KEY='minhan_hex_saved_presets_v1';
+let savedPresets=[];
+try{const stored=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(Array.isArray(stored))savedPresets=stored.filter(x=>x&&typeof x.name==='string'&&typeof x.find==='string'&&typeof x.replace==='string')}catch(_){savedPresets=[]}
+function savePresets(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(savedPresets));return true}catch(_){return false}}
+function applyPreset(p,name){$('findHex').value=p.find;$('replaceHex').value=p.replace;invalidate();$('checkStatus').textContent='Đã nạp mẫu “'+name+'”. Hãy kiểm tra số lần khớp trước khi thay.';$('presetStatus').textContent='Đã nạp: '+name+' — kiểm tra lại cặp HEX trước khi thay.'}
+function renderSavedPresets(){const host=$('savedPresets');if(!host)return;host.replaceChildren();if(!savedPresets.length){const msg=document.createElement('div');msg.className='help';msg.textContent='Chưa có mẫu tự lưu. Nạp file .txt để thêm mẫu.';host.appendChild(msg);return}savedPresets.forEach((p,i)=>{const row=document.createElement('div');row.className='saved-preset-item';const b=document.createElement('button');b.type='button';b.className='preset-btn';const icon=document.createElement('span');icon.className='preset-icon';icon.textContent='🧩';const words=document.createElement('span');const strong=document.createElement('strong');strong.textContent=p.name;const small=document.createElement('small');small.textContent='Chọn để nạp cặp HEX';words.append(strong,small);b.append(icon,words);b.addEventListener('click',()=>applyPreset(p,p.name));const del=document.createElement('button');del.type='button';del.className='delete-preset';del.setAttribute('aria-label','Xóa mẫu '+p.name);del.textContent='×';del.addEventListener('click',()=>{savedPresets.splice(i,1);savePresets();renderSavedPresets();$('presetStatus').textContent='Đã xóa mẫu khỏi danh sách.'});row.append(b,del);host.appendChild(row)})}
+function parseCodePairs(text){const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/);const pairs=[];let mode='',pendingFind='',pendingReplace='';const looksHex=v=>{const c=v.replace(/0x/gi,'').replace(/[^0-9a-f]/gi,'');return c.length>=2&&c.length%2===0&&/^[\s0-9a-fx,:;_-]+$/i.test(v)};const clean=v=>v.trim().replace(/0x/gi,'').replace(/[^0-9a-f]/gi,'').toUpperCase().match(/.{2}/g)?.join(' ')||'';for(let line of lines){line=line.trim();if(!line)continue;const findLabel=line.match(/^(?:tìm|tim|find|search)\s*[:：=-]?\s*(.*)$/i);const replaceLabel=line.match(/^(?:thay|replace)\s*[:：=-]?\s*(.*)$/i);if(findLabel){mode='find';if(looksHex(findLabel[1]))pendingFind=clean(findLabel[1]);continue}if(replaceLabel){mode='replace';if(looksHex(replaceLabel[1]))pendingReplace=clean(replaceLabel[1]);if(pendingFind&&pendingReplace){pairs.push({find:pendingFind,replace:pendingReplace});pendingFind='';pendingReplace='';mode='';}continue}if(!looksHex(line))continue;const val=clean(line);if(mode==='find'){pendingFind=val;mode=''}else if(mode==='replace'){pendingReplace=val;mode='';if(pendingFind&&pendingReplace){pairs.push({find:pendingFind,replace:pendingReplace});pendingFind='';pendingReplace=''}}}return pairs.filter(p=>p.find&&p.replace)}
+function parseHex(s){const clean=s.trim().replace(/0x/gi,'').replace(/[^0-9a-f]/gi,'');if(!clean||clean.length%2)throw new Error('HEX không hợp lệ: cần số ký tự hex chẵn.');const a=[];for(let i=0;i<clean.length;i+=2)a.push(parseInt(clean.slice(i,i+2),16));return new Uint8Array(a)}
+function key(){return $('findHex').value+'|'+$('replaceHex').value+'|'+$('mode').value}
+function countMatches(h,n){let c=0;for(let i=0;i<=h.length-n.length;){let ok=true;for(let j=0;j<n.length;j++)if(h[i+j]!==n[j]){ok=false;break}if(ok){c++;i+=$('mode').value==='first'?n.length:1;if($('mode').value==='first')break}else i++}return c}
+function findPositions(h,n){const p=[];for(let i=0;i<=h.length-n.length;){let ok=true;for(let j=0;j<n.length;j++)if(h[i+j]!==n[j]){ok=false;break}if(ok){p.push(i);i+=n.length;if($('mode').value==='first')break}else i++}return p}
+function invalidate(){replacementReady=false;editedBytes=null;$('replaceBtn').disabled=true;$('downloadBtn').disabled=true;$('replaceStatus').textContent='Cặp HEX đã đổi hoặc chưa xác nhận lại.';$('exportStatus').textContent='Hãy kiểm tra và xác nhận thay HEX trước.'}
+$('sourceFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{originalFile=f;originalBytes=new Uint8Array(await f.arrayBuffer());invalidate();$('fileInfo').innerHTML='<span class="ok">Đã nạp:</span> '+f.name+'<br>Dung lượng: '+originalBytes.length.toLocaleString()+' bytes';$('checkStatus').textContent='File đã sẵn sàng. Nhấn kiểm tra số lần khớp.'}catch(err){$('fileInfo').textContent='Không đọc được file: '+err.message}});
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{const p=presets[b.dataset.preset];if(!p)return;const name=p.name||b.textContent.trim();applyPreset(p,name);const idx=savedPresets.findIndex(x=>x.name===name);const item={name,find:p.find,replace:p.replace};if(idx>=0)savedPresets[idx]=item;else savedPresets.unshift(item);savePresets();renderSavedPresets()}));
+renderSavedPresets();
+$('findHex').addEventListener('input',invalidate);$('replaceHex').addEventListener('input',invalidate);$('mode').addEventListener('change',invalidate);
+$('checkBtn').addEventListener('click',()=>{try{if(!originalBytes)throw new Error('Vui lòng chọn file gốc trước.');const n=parseHex($('findHex').value),r=parseHex($('replaceHex').value);if(n.length!==r.length)throw new Error('Hai dãy HEX phải có cùng độ dài.');matchCount=countMatches(originalBytes,n);checkedKey=key();replacementReady=false;$('replaceBtn').disabled=matchCount===0;$('downloadBtn').disabled=true;$('replaceStatus').textContent='Chưa thay đổi file.';$('checkStatus').innerHTML=matchCount?'<span class="ok">Tìm thấy '+matchCount+' vị trí khớp.</span> Hãy xác nhận nếu muốn thay.':'<span class="err">Không tìm thấy vị trí khớp.</span>';if(!matchCount)$('replaceBtn').disabled=true}catch(err){$('checkStatus').innerHTML='<span class="err">'+err.message+'</span>';$('replaceBtn').disabled=true}});
+$('replaceBtn').addEventListener('click',()=>{try{if(!originalBytes)throw new Error('Chưa chọn file gốc.');if(checkedKey!==key())throw new Error('Cặp HEX đã thay đổi. Hãy kiểm tra lại trước.');const n=parseHex($('findHex').value),r=parseHex($('replaceHex').value),positions=findPositions(originalBytes,n);if(!positions.length)throw new Error('Không còn vị trí khớp. Hãy kiểm tra lại.');editedBytes=new Uint8Array(originalBytes);for(const pos of positions)editedBytes.set(r,pos);replacementReady=true;$('downloadBtn').disabled=false;$('replaceStatus').innerHTML='<span class="ok">Đã thay '+positions.length+' vị trí.</span> File gốc vẫn được giữ nguyên.';$('exportStatus').textContent='Sẵn sàng xuất '+editedBytes.length.toLocaleString()+' bytes.'}catch(err){$('replaceStatus').innerHTML='<span class="err">'+err.message+'</span>'}});
+$('downloadBtn').addEventListener('click',()=>{if(!replacementReady||!editedBytes)return;const blob=new Blob([editedBytes],{type:'application/octet-stream'}),url=URL.createObjectURL(blob),a=document.createElement('a');const name=(originalFile?.name||'file.bin').replace(/(\.[^.]+)?$/,'_HEX_SUA$1');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$('exportStatus').textContent='Đã gửi file mới để tải/lưu. '});
+})();
+</script>
+<script>
+(() => {
+  const startVideo = () => {
+    const video = document.querySelector('.hero-video video');
+    if (!video) return;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    const result = video.play();
+    if (result && typeof result.catch === 'function') result.catch(() => {});
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startVideo, { once: true });
+  else startVideo();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) startVideo(); });
+})();
+</script>
+
+<!-- KEY entry moved to the bottom; it scrolls with the page -->
+
+<div id="minhan-gate" role="dialog" aria-modal="true" aria-label="Mở khóa Minh An Cheat"><div class="gate-card"><h1>🔐 MINH AN CHEAT</h1><p class="sub">Nhập hoặc dán KEY để mở khóa ứng dụng</p><input id="minhan-gate-key" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Nhập hoặc dán KEY mở khóa"><button type="button" class="paste" id="minhan-gate-paste">📋 DÁN KEY</button><button type="button" class="unlock" id="minhan-gate-unlock">MỞ KHÓA</button><p id="minhan-gate-msg" class="msg" role="status"></p><button type="button" class="admin" id="minhan-gate-admin">ADMIN · Quản lý KEY</button><div class="foot">ĐẶNG MINH AN · MINH AN MOD</div></div></div>
+<script id="minhan-gate-script">
+(()=>{const keys={'minhancheat1dayastmr':86400,'minhancheat24hcontisn':86400,'minhancheat7daysifbeb':604800,'minhanchet30daygdnenf':2592000,'minhancheat90dayhcfen':7776000,'minhancheatkeyvinhvien':0};const store='minhan_key_activation_v1';const gate=document.getElementById('minhan-gate'),input=document.getElementById('minhan-gate-key'),msg=document.getElementById('minhan-gate-msg');function say(t,ok=false){msg.textContent=t;msg.style.color=ok?'#79f7d5':'#ffc6d8'}function activate(){const k=input.value.trim(),now=Date.now();if(!Object.prototype.hasOwnProperty.call(keys,k)){say('KEY không hợp lệ. Vui lòng kiểm tra lại.');return}let saved={};try{saved=JSON.parse(localStorage.getItem(store)||'{}')}catch(e){}let item=saved[k];if(!item){item={start:now,expires:keys[k]?now+keys[k]*1000:0};saved[k]=item;try{localStorage.setItem(store,JSON.stringify(saved))}catch(e){}}if(item.expires&&now>item.expires){delete saved[k];try{localStorage.setItem(store,JSON.stringify(saved))}catch(e){}say('KEY đã hết hạn.');return}try{localStorage.setItem('minhan_active_key',k)}catch(e){}say('KEY hợp lệ. Đang mở tool…',true);setTimeout(()=>{gate.remove();document.body.style.overflow='';if(window.showMinhanKeyPanel)window.showMinhanKeyPanel(k,item);},300)}document.getElementById('minhan-gate-unlock').addEventListener('click',activate);input.addEventListener('keydown',e=>{if(e.key==='Enter')activate()});document.getElementById('minhan-gate-paste').addEventListener('click',async()=>{try{input.value=await navigator.clipboard.readText();say('Đã dán KEY. Nhấn MỞ KHÓA để tiếp tục.',true)}catch(e){say('Hãy nhấn giữ ô nhập và chọn Dán.')}});document.getElementById('minhan-gate-admin').addEventListener('click',()=>say('Quản lý KEY Admin cần hệ thống quản trị riêng.'));document.body.style.overflow='auto';})();
+</script>
+</body></html>
